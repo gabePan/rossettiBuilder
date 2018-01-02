@@ -75,8 +75,8 @@
         <div id="inputAreaLeft"></div>
 
         <div class="container">
-            <button class="createReportButton" id="createReport-left">Create language COMPREHENSION report from current selection</button><br>
-            <textarea class="reportOutput" id="reportOutput-left" rows=20 cols=70></textarea>
+            <button class="createReportButton" id="createReport-comp">Create language COMPREHENSION report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-comp" rows=20 cols=70></textarea>
         </div>
     </div>
 
@@ -84,8 +84,8 @@
         <div id="inputAreaRight"></div>
 
         <div class="container">
-            <button class="createReportButton" id="createReport-right">Create language EXPRESSION report from current selection</button><br>
-            <textarea class="reportOutput" id="reportOutput-right" rows=20 cols=70></textarea>
+            <button class="createReportButton" id="createReport-expr">Create language EXPRESSION report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-expr" rows=20 cols=70></textarea>
         </div>
     </div>
 
@@ -501,18 +501,18 @@
     };
 
     // update report content inside textarea
-    var updateReport = function(leftOrRight) {
+    var updateReport = function(compOrRight) {
         return function(event) {
             var text = "";
             var curRadioButton;
-            var outputArea = document.getElementById( 'reportOutput-'+leftOrRight );
+            var outputArea = document.getElementById( 'reportOutput-'+compOrRight );
 
             var canIndexArray = { comprehension: [], expression: [] };
             var cannotIndexArray = { comprehension: [], expression: [] };
 
             // loop to scan selections and store results in index arrays
-            if ( leftOrRight === 'left' ) {
-                // only process comprehension for left
+            if ( compOrRight === 'comp' ) {
+                // only process comprehension for comp
                 scanRadioButtons("comprehension", canIndexArray, cannotIndexArray);
 
                 var canTextComp = formatText(canIndexArray, "can", "comprehension");
@@ -522,7 +522,7 @@
                 text += cannotTextComp+"\n";
             }
             else {
-                // only process expression for right
+                // only process expression for expr
                 scanRadioButtons("expression", canIndexArray, cannotIndexArray);
 
                 var canTextExp = formatText(canIndexArray, "can", "expression");
@@ -543,10 +543,10 @@
 //        setTimeout(function() { event.target.select(); }, 1); 
 //    };
 
-    var tempTypes = [ 'left', 'right' ];
-    tempTypes.forEach( function( lOrR, index ) {
-        goButton = document.getElementById( 'createReport-'+lOrR );
-        goButton.addEventListener( 'click', updateReport( lOrR ) );
+    var tempTypes = [ 'comp', 'expr' ];
+    tempTypes.forEach( function( cOrE, index ) {
+        goButton = document.getElementById( 'createReport-'+cOrE );
+        goButton.addEventListener( 'click', updateReport( cOrE ) );
     } );
 
 //    outputArea.addEventListener("focus", selectAllText);
