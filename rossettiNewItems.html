@@ -72,8 +72,13 @@
 </head>
 <body>
     <div id="leftColumn">
-        <div class="inputAreaLeft" id="inputArea-comp"></div>
+        <div class="inputAreaLeft" id="inputArea-prag"></div>
+        <div class="container">
+            <button class="createReportButton" id="createReport-prag">Create language PRAGMATICS report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-prag" rows=20 cols=70></textarea>
+        </div>
 
+        <div class="inputAreaLeft" id="inputArea-comp"></div>
         <div class="container">
             <button class="createReportButton" id="createReport-comp">Create language COMPREHENSION report from current selection</button><br>
             <textarea class="reportOutput" id="reportOutput-comp" rows=20 cols=70></textarea>
@@ -82,7 +87,6 @@
 
     <div id="rightColumn">
         <div class="inputAreaRight" id="inputArea-expr"></div>
-
         <div class="container">
             <button class="createReportButton" id="createReport-expr">Create language EXPRESSION report from current selection</button><br>
             <textarea class="reportOutput" id="reportOutput-expr" rows=20 cols=70></textarea>
@@ -105,8 +109,8 @@
         "33-36 Months"
     ];
 
-    var categoryTypes = [ 'comp', 'expr' ];
-    var categoryDisplayNames = [ 'comprehension', 'expression' ];
+    var categoryTypes = [ 'comp', 'expr', 'prag' ];
+    var categoryDisplayNames = [ 'comprehension', 'expression', 'pragmatics' ];
 
     var textItems = {
         comp: [
@@ -299,6 +303,14 @@
             { group: 11, can: "expresses physical states", cannot: "express physical states" },
             { group: 11, can: "converses in sentences", cannot: "converse in sentences" },
             { group: 11, can: "counts to three", cannot: "count to three" },
+        ],
+
+        prag: [
+            { group: 0, can: "responds to adult interaction", cannot: "respond to adult interaction" },
+            { group: 0, can: "seeks to make eye contact with an adult", cannot: "seek to make eye contact with an adult" },
+            { group: 0, can: "laughs at amusing activities", cannot: "laugh at amusing activities" },
+            { group: 0, can: "shows interest in people, not objects", cannot: "show interest in people, not objects" },
+            { group: 0, can: "cries to get attention", cannot: "cry to get attention" },
         ]
     };
 
@@ -414,14 +426,13 @@
             parentDiv.appendChild(curSubdiv);
         };
 
-        var inputDivLeft = document.getElementById("inputArea-comp");
-        var inputDivRight = document.getElementById("inputArea-expr");
-
-        buildInputPage(inputDivLeft, "comp", 0);
-        //inputDiv.appendChild(document.createElement("br"));
-        //inputDiv.appendChild(document.createElement("br"));
-        buildInputPage(inputDivRight, "expr", 1);
-        //inputDiv.appendChild(document.createElement("br"));
+        // build input radio buttons from preset keyword data
+        categoryTypes.forEach( function( keyword, index ) {
+            var inputDiv = document.getElementById( 'inputArea-'+keyword );
+            if ( inputDiv ) {
+                buildInputPage( inputDiv, keyword, index );
+            }
+        } );
     })();
 
 
