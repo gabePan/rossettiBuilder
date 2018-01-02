@@ -21,11 +21,11 @@
             margin: 8px 0 0 0;
         }
 
-        .h2_comprehension {
+        .h2_comp {
             color: black;
         }
 
-        .h2_expression {
+        .h2_expr {
             color: blue;
         }
 
@@ -105,8 +105,11 @@
         "33-36 Months"
     ];
 
+    var categoryTypes = [ 'comp', 'expr' ];
+    var categoryDisplayNames = [ 'comprehension', 'expression' ];
+
     var textItems = {
-        comprehension: [
+        comp: [
             { group: 0, can: "quiets to a familiar voice", cannot: "quiet to a familiar voice" },
             { group: 0, can: "moves in response to a voice", cannot: "move in response to a voice" },
             { group: 0, can: "shows awareness of a speaker", cannot: "show awareness of a speaker" },
@@ -195,7 +198,7 @@
             { group: 11, can: "follows commands with two familiar attributes", cannot: "follow commands with two familiar attributes" },
         ],
 
-        expression: [
+        expr: [
             { group: 0, can: "vocalizes to caregiver's smile and voice", cannot: "vocalize to caregiver's smile and voice" },
             { group: 0, can: "vocalizes two different sounds", cannot: "vocalize two different sounds" },
             { group: 0, can: "coos", cannot: "coo" },
@@ -372,7 +375,7 @@
         };
 
         // helper function to build input elements
-        var buildInputPage = function(parentDiv, compOrExp) {
+        var buildInputPage = function(parentDiv, compOrExp, keywordIndex) {
 
             var curSubdiv;
             var curAgeGroup = -1;
@@ -392,7 +395,7 @@
 
                     curAgeGroup += 1;
                     h2Elem.setAttribute("class", "h2_"+compOrExp);
-                    h2Elem.textContent = ageGroupLabels[curAgeGroup]+": Language "+compOrExp;
+                    h2Elem.textContent = ageGroupLabels[curAgeGroup]+": Language "+categoryDisplayNames[ keywordIndex ];
 
                     // append new age group
                     parentDiv.appendChild(h2Elem);
@@ -414,10 +417,10 @@
         var inputDivLeft = document.getElementById("inputAreaLeft");
         var inputDivRight = document.getElementById("inputAreaRight");
 
-        buildInputPage(inputDivLeft, "comprehension");
+        buildInputPage(inputDivLeft, "comp", 0);
         //inputDiv.appendChild(document.createElement("br"));
         //inputDiv.appendChild(document.createElement("br"));
-        buildInputPage(inputDivRight, "expression");
+        buildInputPage(inputDivRight, "expr", 1);
         //inputDiv.appendChild(document.createElement("br"));
     })();
 
@@ -507,26 +510,26 @@
             var curRadioButton;
             var outputArea = document.getElementById( 'reportOutput-'+compOrRight );
 
-            var canIndexArray = { comprehension: [], expression: [] };
-            var cannotIndexArray = { comprehension: [], expression: [] };
+            var canIndexArray = { comp: [], expr: [] };
+            var cannotIndexArray = { comp: [], expr: [] };
 
             // loop to scan selections and store results in index arrays
             if ( compOrRight === 'comp' ) {
                 // only process comprehension for comp
-                scanRadioButtons("comprehension", canIndexArray, cannotIndexArray);
+                scanRadioButtons("comp", canIndexArray, cannotIndexArray);
 
-                var canTextComp = formatText(canIndexArray, "can", "comprehension");
-                var cannotTextComp = formatText(cannotIndexArray, "cannot", "comprehension");
+                var canTextComp = formatText(canIndexArray, "can", "comp");
+                var cannotTextComp = formatText(cannotIndexArray, "cannot", "comp");
 
                 text += canTextComp+"\n";
                 text += cannotTextComp+"\n";
             }
             else {
                 // only process expression for expr
-                scanRadioButtons("expression", canIndexArray, cannotIndexArray);
+                scanRadioButtons("expr", canIndexArray, cannotIndexArray);
 
-                var canTextExp = formatText(canIndexArray, "can", "expression");
-                var cannotTextExp = formatText(cannotIndexArray, "cannot", "expression");
+                var canTextExp = formatText(canIndexArray, "can", "expr");
+                var cannotTextExp = formatText(cannotIndexArray, "cannot", "expr");
 
                 text += canTextExp+"\n";
                 text += cannotTextExp+"\n";
@@ -543,8 +546,7 @@
 //        setTimeout(function() { event.target.select(); }, 1); 
 //    };
 
-    var tempTypes = [ 'comp', 'expr' ];
-    tempTypes.forEach( function( cOrE, index ) {
+    categoryTypes.forEach( function( cOrE, index ) {
         goButton = document.getElementById( 'createReport-'+cOrE );
         goButton.addEventListener( 'click', updateReport( cOrE ) );
     } );
