@@ -8,7 +8,7 @@
             background-color: linen;
         }
 
-        #inputAreaLeft {
+        .inputAreaLeft {
             margin: 0 0 15px 0;
         }
 
@@ -72,7 +72,7 @@
 </head>
 <body>
     <div id="leftColumn">
-        <div id="inputAreaLeft"></div>
+        <div class="inputAreaLeft" id="inputArea-comp"></div>
 
         <div class="container">
             <button class="createReportButton" id="createReport-comp">Create language COMPREHENSION report from current selection</button><br>
@@ -81,7 +81,7 @@
     </div>
 
     <div id="rightColumn">
-        <div id="inputAreaRight"></div>
+        <div class="inputAreaRight" id="inputArea-expr"></div>
 
         <div class="container">
             <button class="createReportButton" id="createReport-expr">Create language EXPRESSION report from current selection</button><br>
@@ -414,8 +414,8 @@
             parentDiv.appendChild(curSubdiv);
         };
 
-        var inputDivLeft = document.getElementById("inputAreaLeft");
-        var inputDivRight = document.getElementById("inputAreaRight");
+        var inputDivLeft = document.getElementById("inputArea-comp");
+        var inputDivRight = document.getElementById("inputArea-expr");
 
         buildInputPage(inputDivLeft, "comp", 0);
         //inputDiv.appendChild(document.createElement("br"));
