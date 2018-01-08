@@ -74,7 +74,7 @@
     <div id="leftColumn">
         <div class="inputAreaLeft" id="inputArea-prag"></div>
         <div class="container">
-            <button class="createReportButton" id="createReport-prag">Create language PRAGMATICS report from current selection</button><br>
+            <button class="createReportButton" id="createReport-prag">Create PRAGMATICS report from current selection</button><br>
             <textarea class="reportOutput" id="reportOutput-prag" rows=20 cols=70></textarea>
         </div>
 
@@ -110,7 +110,7 @@
     ];
 
     var categoryTypes = [ 'comp', 'expr', 'prag' ];
-    var categoryDisplayNames = [ 'comprehension', 'expression', 'pragmatics' ];
+    var categoryDisplayNames = [ 'Language comprehension', 'Language expression', 'Pragmatics' ];
 
     var textItems = {
         comp: [
@@ -407,7 +407,7 @@
 
                     curAgeGroup += 1;
                     h2Elem.setAttribute("class", "h2_"+compOrExp);
-                    h2Elem.textContent = ageGroupLabels[curAgeGroup]+": Language "+categoryDisplayNames[ keywordIndex ];
+                    h2Elem.textContent = ageGroupLabels[curAgeGroup]+": "+categoryDisplayNames[ keywordIndex ];
 
                     // append new age group
                     parentDiv.appendChild(h2Elem);
