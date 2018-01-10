@@ -78,6 +78,12 @@
             <textarea class="reportOutput" id="reportOutput-prag" rows=20 cols=70></textarea>
         </div>
 
+        <div class="inputAreaLeft" id="inputArea-play"></div>
+        <div class="container">
+            <button class="createReportButton" id="createReport-play">Create PLAY report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-play" rows=20 cols=70></textarea>
+        </div>
+
         <div class="inputAreaLeft" id="inputArea-comp"></div>
         <div class="container">
             <button class="createReportButton" id="createReport-comp">Create LANGUAGE COMPREHENSION report from current selection</button><br>
@@ -86,10 +92,16 @@
     </div>
 
     <div id="rightColumn">
-        <div class="inputAreaRight" id="inputArea-play"></div>
+        <div class="inputAreaRight" id="inputArea-in_at"></div>
         <div class="container">
-            <button class="createReportButton" id="createReport-play">Create PLAY report from current selection</button><br>
-            <textarea class="reportOutput" id="reportOutput-play" rows=20 cols=70></textarea>
+            <button class="createReportButton" id="createReport-in_at">Create INTERACTION-ATTACHMENT report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-in_at" rows=20 cols=70></textarea>
+        </div>
+
+        <div class="inputAreaRight" id="inputArea-gest"></div>
+        <div class="container">
+            <button class="createReportButton" id="createReport-gest">Create GESTURE report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-gest" rows=20 cols=70></textarea>
         </div>
 
         <div class="inputAreaRight" id="inputArea-expr"></div>
@@ -101,22 +113,22 @@
 
     <script>
     var ageGroupLabels = [
-        "0-3 Months",
+        "0-3 Months",   // 0
         "3-6 Months",
         "6-9 Months",
         "9-12 Months",
         "12-15 Months",
-        "15-18 Months",
+        "15-18 Months", // 5
         "18-21 Months",
         "21-24 Months",
         "24-27 Months",
         "27-30 Months",
-        "30-33 Months",
+        "30-33 Months", // 10
         "33-36 Months"
     ];
 
     var categoryTypes = [ 'comp', 'expr', 'prag', 'play', 'in_at', 'gest' ];
-    var categoryDisplayNames = [ 'Language comprehension', 'Language expression', 'Pragmatics' ];
+    var categoryDisplayNames = [ 'Language comprehension', 'Language expression', 'Pragmatics', 'Play', 'Interaction-Attachment', 'Gesture' ];
 
     var textItems = {
         comp: [
@@ -324,10 +336,42 @@
         ],
 
         in_at: [
+            { group: 0, can: "maintains brief eye contact during feeding", cannot: "maintain brief eye contact during feeding" },
+            { group: 0, can: "shows differing responses to caregiver's vocalization", cannot: "show differing responses to caregiver's vocalization" },
+            { group: 0, can: "crying diminishes with adult eye contact", cannot: "crying does not diminish with adult eye contact" },
+            { group: 0, can: "smiles purposefully in response to caregiver's face or voice", cannot: "smile purposefully in response to caregiver's face or voice" },
+            { group: 0, can: "caregiver appears relaxed and comfortable in handling the child", cannot: "caregiver does not appear relaxed and comfortable in handling the child" },
+            { group: 0, can: "caregiver smiles frequently while interacting with the child", cannot: "caregiver does not smile frequently while interacting with the child" },
+
+            { group: 1, can: "smiles spontaneously to human contact", cannot: "smile spontaneously to human contact" },
+            { group: 1, can: "smiles when playing alone", cannot: "smile when playing alone" },
+            { group: 1, can: "smiles at faces of several family members", cannot: "smile at faces of several family members" },
+            { group: 1, can: "stops crying when spoken to", cannot: "stop crying when spoken to" },
+            { group: 1, can: "shows different response to family members", cannot: "show different response to family members" },
+
+            { group: 2, can: "responds to a request to \"come here\"", cannot: "respond to a request to \"come here\"" },
+            { group: 2, can: "becomes livelier with familiar people", cannot: "become livelier with familiar people" },
+            { group: 2, can: "shows some initial separation fear", cannot: "show some initial separation fear" },
+            { group: 2, can: "shows a desire to be with people", cannot: "show a desire to be with people" },
+
+            { group: 3, can: "shows sensitivity to others' moods", cannot: "show sensitivity to others' moods" },
+            { group: 3, can: "displays fear of strangers", cannot: "display fear of strangers" },
+            { group: 3, can: "allows release of contact in new situations", cannot: "allow release of contact in new situations" },
+            { group: 3, can: "performs for social attention", cannot: "perform for social attention" },
 
         ],
 
         gest: [
+            // no items for 0-3 months
+            // no items for 3-6 months
+            // no items for 6-9 months
+
+            { group: 3, can: "covers and uncovers face during \"Peek-a-boo\"", cannot: "cover and uncover face during \"Peek-a-boo\"" },
+            { group: 3, can: "reaches upward as a request to be picked up", cannot: "reach upward as a request to be picked up" },
+            { group: 3, can: "waves \"hi\" and \"bye\"", cannot: "wave \"hi\" and \"bye\"" },
+            { group: 3, can: "extends arm to show an object", cannot: "extend arm to show an object" },
+            { group: 3, can: "points to objects to indicate awareness", cannot: "point to objects to indicate awareness" },
+
 
         ],
     };
@@ -425,7 +469,8 @@
                         // start new group
                         var h2Elem = document.createElement("h2");
 
-                        curAgeGroup += 1;
+                        //curAgeGroup += 1;
+                        curAgeGroup = rbTextItem.group;
                         h2Elem.setAttribute("class", "h2_"+categoryKey);
                         h2Elem.textContent = ageGroupLabels[curAgeGroup]+": "+categoryDisplayNames[ categoryIndex ];
 
