@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Simple report text builder</title>
+    <title>Rossetti Related Areas</title>
     <style>
         body {
             background-color: linen;
@@ -25,8 +25,20 @@
             color: black;
         }
 
-        .h2_expr, .h2_play, .h2_in_at {
-            color: blue;
+        .h2_expr, .h2_play {
+            color: #00a;
+        }
+        
+        .h2_in_at {
+            color: #050;
+        }
+
+        .h2_gest {
+            color: #606;
+        }
+
+        .h2_prag {
+            color: #520;
         }
 
         .rb-title {
@@ -72,16 +84,16 @@
 </head>
 <body>
     <div id="leftColumn">
-        <div class="inputAreaLeft" id="inputArea-prag"></div>
-        <div class="container">
-            <button class="createReportButton" id="createReport-prag">Create PRAGMATICS report from current selection</button><br>
-            <textarea class="reportOutput" id="reportOutput-prag" rows=20 cols=70></textarea>
-        </div>
-
         <div class="inputAreaLeft" id="inputArea-in_at"></div>
         <div class="container">
             <button class="createReportButton" id="createReport-in_at">Create INTERACTION-ATTACHMENT report from current selection</button><br>
             <textarea class="reportOutput" id="reportOutput-in_at" rows=20 cols=70></textarea>
+        </div>
+
+        <div class="inputAreaLeft" id="inputArea-prag"></div>
+        <div class="container">
+            <button class="createReportButton" id="createReport-prag">Create PRAGMATICS report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-prag" rows=20 cols=70></textarea>
         </div>
 
         <!--<div class="inputAreaLeft" id="inputArea-comp"></div>
@@ -92,16 +104,16 @@
     </div>
 
     <div id="rightColumn">
-        <div class="inputAreaRight" id="inputArea-play"></div>
-        <div class="container">
-            <button class="createReportButton" id="createReport-play">Create PLAY report from current selection</button><br>
-            <textarea class="reportOutput" id="reportOutput-play" rows=20 cols=70></textarea>
-        </div>
-
         <div class="inputAreaRight" id="inputArea-gest"></div>
         <div class="container">
             <button class="createReportButton" id="createReport-gest">Create GESTURE report from current selection</button><br>
             <textarea class="reportOutput" id="reportOutput-gest" rows=20 cols=70></textarea>
+        </div>
+
+        <div class="inputAreaRight" id="inputArea-play"></div>
+        <div class="container">
+            <button class="createReportButton" id="createReport-play">Create PLAY report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-play" rows=20 cols=70></textarea>
         </div>
 
         <!--<div class="inputAreaRight" id="inputArea-expr"></div>
