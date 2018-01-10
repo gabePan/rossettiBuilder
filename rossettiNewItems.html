@@ -80,15 +80,21 @@
 
         <div class="inputAreaLeft" id="inputArea-comp"></div>
         <div class="container">
-            <button class="createReportButton" id="createReport-comp">Create language COMPREHENSION report from current selection</button><br>
+            <button class="createReportButton" id="createReport-comp">Create LANGUAGE COMPREHENSION report from current selection</button><br>
             <textarea class="reportOutput" id="reportOutput-comp" rows=20 cols=70></textarea>
         </div>
     </div>
 
     <div id="rightColumn">
+        <div class="inputAreaRight" id="inputArea-play"></div>
+        <div class="container">
+            <button class="createReportButton" id="createReport-play">Create PLAY report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-play" rows=20 cols=70></textarea>
+        </div>
+
         <div class="inputAreaRight" id="inputArea-expr"></div>
         <div class="container">
-            <button class="createReportButton" id="createReport-expr">Create language EXPRESSION report from current selection</button><br>
+            <button class="createReportButton" id="createReport-expr">Create LANGUAGE EXPRESSION report from current selection</button><br>
             <textarea class="reportOutput" id="reportOutput-expr" rows=20 cols=70></textarea>
         </div>
     </div>
@@ -109,7 +115,7 @@
         "33-36 Months"
     ];
 
-    var categoryTypes = [ 'comp', 'expr', 'prag' ];
+    var categoryTypes = [ 'comp', 'expr', 'prag', 'play', 'in_at', 'gest' ];
     var categoryDisplayNames = [ 'Language comprehension', 'Language expression', 'Pragmatics' ];
 
     var textItems = {
@@ -311,7 +317,19 @@
             { group: 0, can: "laughs at amusing activities", cannot: "laugh at amusing activities" },
             { group: 0, can: "shows interest in people, not objects", cannot: "show interest in people, not objects" },
             { group: 0, can: "cries to get attention", cannot: "cry to get attention" },
-        ]
+        ],
+
+        play: [
+
+        ],
+
+        in_at: [
+
+        ],
+
+        gest: [
+
+        ],
     };
 
     // generates html elements in accordance to textItems
@@ -387,50 +405,53 @@
         };
 
         // helper function to build input elements
-        var buildInputPage = function(parentDiv, compOrExp, keywordIndex) {
+        var buildInputPage = function(parentDiv, categoryKey, categoryIndex) {
 
-            var curSubdiv;
-            var curAgeGroup = -1;
+            // check if there are any items for current category
+            if ( textItems[ categoryKey ].length !== 0 ) {
+                var curSubdiv;
+                var curAgeGroup = -1;
 
-            textItems[ compOrExp ].forEach( function(rbTextItem,rbIndex) {
+                textItems[ categoryKey ].forEach( function(rbTextItem,rbIndex) {
 
-                if (rbTextItem.group !== curAgeGroup) {
-                    // new age group
+                    if (rbTextItem.group !== curAgeGroup) {
+                        // new age group
 
-                    // complete previous group unless prev group is -1
-                    if (curAgeGroup !== -1) {
-                        parentDiv.appendChild(curSubdiv);
+                        // complete previous group unless prev group is -1
+                        if (curAgeGroup !== -1) {
+                            parentDiv.appendChild(curSubdiv);
+                        }
+
+                        // start new group
+                        var h2Elem = document.createElement("h2");
+
+                        curAgeGroup += 1;
+                        h2Elem.setAttribute("class", "h2_"+categoryKey);
+                        h2Elem.textContent = ageGroupLabels[curAgeGroup]+": "+categoryDisplayNames[ categoryIndex ];
+
+                        // append new age group
+                        parentDiv.appendChild(h2Elem);
+
+                        // create new div for radio buttons
+                        curSubdiv = document.createElement("div");
+
+                        // add + - title to new subdiv
+                        addTitleDiv(curSubdiv);
                     }
 
-                    // start new group
-                    var h2Elem = document.createElement("h2");
+                    // add new radio item to current
+                    addRadioButton(rbTextItem, rbIndex, curSubdiv, categoryKey);
+                } );
 
-                    curAgeGroup += 1;
-                    h2Elem.setAttribute("class", "h2_"+compOrExp);
-                    h2Elem.textContent = ageGroupLabels[curAgeGroup]+": "+categoryDisplayNames[ keywordIndex ];
-
-                    // append new age group
-                    parentDiv.appendChild(h2Elem);
-
-                    // create new div for radio buttons
-                    curSubdiv = document.createElement("div");
-
-                    // add + - title to new subdiv
-                    addTitleDiv(curSubdiv);
-                }
-
-                // add new radio item to current
-                addRadioButton(rbTextItem, rbIndex, curSubdiv, compOrExp);
-            } );
-
-            parentDiv.appendChild(curSubdiv);
+                parentDiv.appendChild(curSubdiv);
+            }
         };
 
         // build input radio buttons from preset keyword data
-        categoryTypes.forEach( function( keyword, index ) {
-            var inputDiv = document.getElementById( 'inputArea-'+keyword );
+        categoryTypes.forEach( function( categoryKey, categoryIndex ) {
+            var inputDiv = document.getElementById( 'inputArea-'+categoryKey );
             if ( inputDiv ) {
-                buildInputPage( inputDiv, keyword, index );
+                buildInputPage( inputDiv, categoryKey, categoryIndex );
             }
         } );
     })();
@@ -571,7 +592,9 @@
 
     categoryTypes.forEach( function( categoryKey, categoryIndex ) {
         goButton = document.getElementById( 'createReport-'+categoryKey );
-        goButton.addEventListener( 'click', updateReport( categoryKey, categoryIndex ) );
+        if ( goButton ) {
+            goButton.addEventListener( 'click', updateReport( categoryKey, categoryIndex ) );
+        }
     } );
 
 //    outputArea.addEventListener("focus", selectAllText);
