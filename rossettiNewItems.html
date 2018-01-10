@@ -437,8 +437,8 @@
 
 
     // helper function to format output text appropriately
-    var formatText = function(indexArray, type, compOrExp) {
-        var count = indexArray[ compOrExp ].length;
+    var formatText = function( indexArray, type, categoryKey, categoryIndex ) {
+        var count = indexArray.length;
 
         if (count === 0) {
             return "";
@@ -449,17 +449,17 @@
         var verbFormIndex;
 
         if (type === "cannot") {
-            sentenceSubjectText = "(unable to do in "+compOrExp+"):";
+            sentenceSubjectText = "(unable to do in "+categoryDisplayNames[ categoryIndex ]+"):";
             verbFormIndex = "cannot";
         }
         else {
-            sentenceSubjectText = "(able to do in "+compOrExp+"):";
+            sentenceSubjectText = "(able to do in "+categoryDisplayNames[ categoryIndex ]+"):";
             verbFormIndex = "can";
         }
 
         if (count === 1) {
             // only one item, no need to add "and"
-            sentenceVerbsText = " "+textItems[ compOrExp ][ indexArray[ compOrExp ][0] ][ verbFormIndex ];
+            sentenceVerbsText = " "+textItems[ categoryKey ][ indexArray[0] ][ verbFormIndex ];
         }
         else {
             for (var i=0; i<count; i++) {
@@ -468,7 +468,7 @@
                     sentenceVerbsText += " and";
                 }
 
-                sentenceVerbsText += " "+textItems[ compOrExp ][ indexArray[ compOrExp ][i] ][ verbFormIndex ];
+                sentenceVerbsText += " "+textItems[ categoryKey ][ indexArray[i] ][ verbFormIndex ];
 
                 if (i < count-2) {
                     // add comma if before second to last item in list 
@@ -485,11 +485,11 @@
     
 
     // helper function to scan radio buttons
-    var scanRadioButtons = function(compOrExp, canIndexArray, cannotIndexArray) {
+    var scanRadioButtons = function(categoryKey, canIndexArray, cannotIndexArray) {
         var rbIndex = 0;
 
         while (true) {
-            var curName = "rb_"+compOrExp+rbIndex;
+            var curName = "rb_"+categoryKey+rbIndex;
             curRadioButtonArray = document.getElementsByName(curName);
             var length = curRadioButtonArray.length;
 
@@ -504,10 +504,10 @@
             }
 
             if (curVal === "plus") {
-                canIndexArray[ compOrExp ].push(rbIndex);
+                canIndexArray.push(rbIndex);
             }
             else if (curVal === "minus") {
-                cannotIndexArray[ compOrExp ].push(rbIndex);
+                cannotIndexArray.push(rbIndex);
             }
 
             rbIndex++;
@@ -515,36 +515,48 @@
     };
 
     // update report content inside textarea
-    var updateReport = function(compOrRight) {
+    var updateReport = function( categoryKey, categoryIndex ) {
         return function(event) {
             var text = "";
             var curRadioButton;
-            var outputArea = document.getElementById( 'reportOutput-'+compOrRight );
+            var outputArea = document.getElementById( 'reportOutput-'+categoryKey );
 
-            var canIndexArray = { comp: [], expr: [] };
-            var cannotIndexArray = { comp: [], expr: [] };
+            //var canIndexArray = { comp: [], expr: [] };
+            //var cannotIndexArray = { comp: [], expr: [] };
+            var canIndexArray = [];
+            var cannotIndexArray = [];
 
             // loop to scan selections and store results in index arrays
-            if ( compOrRight === 'comp' ) {
-                // only process comprehension for comp
-                scanRadioButtons("comp", canIndexArray, cannotIndexArray);
+            //if ( categoryKey === 'comp' ) {
+            //    // only process comprehension for comp
+            //    scanRadioButtons("comp", canIndexArray, cannotIndexArray);
 
-                var canTextComp = formatText(canIndexArray, "can", "comp");
-                var cannotTextComp = formatText(cannotIndexArray, "cannot", "comp");
+            //    var canTextComp = formatText(canIndexArray, "can", "comp");
+            //    var cannotTextComp = formatText(cannotIndexArray, "cannot", "comp");
 
-                text += canTextComp+"\n";
-                text += cannotTextComp+"\n";
-            }
-            else {
-                // only process expression for expr
-                scanRadioButtons("expr", canIndexArray, cannotIndexArray);
+            //    text += canTextComp+"\n";
+            //    text += cannotTextComp+"\n";
+            //}
+            //else {
+            //    // only process expression for expr
+            //    scanRadioButtons("expr", canIndexArray, cannotIndexArray);
 
-                var canTextExp = formatText(canIndexArray, "can", "expr");
-                var cannotTextExp = formatText(cannotIndexArray, "cannot", "expr");
+            //    var canTextExp = formatText(canIndexArray, "can", "expr");
+            //    var cannotTextExp = formatText(cannotIndexArray, "cannot", "expr");
 
-                text += canTextExp+"\n";
-                text += cannotTextExp+"\n";
-            }
+            //    text += canTextExp+"\n";
+            //    text += cannotTextExp+"\n";
+            //}
+
+            // scan radio buttons and search for category items
+            scanRadioButtons( categoryKey, canIndexArray, cannotIndexArray );
+
+            // add can text for category
+            text += formatText( canIndexArray, 'can', categoryKey, categoryIndex );
+            text += '\n';
+            // add cannot text for category
+            text += formatText( cannotIndexArray, 'cannot', categoryKey, categoryIndex );
+            text += '\n';
 
             // set output text
             outputArea.textContent = text;
@@ -557,9 +569,9 @@
 //        setTimeout(function() { event.target.select(); }, 1); 
 //    };
 
-    categoryTypes.forEach( function( cOrE, index ) {
-        goButton = document.getElementById( 'createReport-'+cOrE );
-        goButton.addEventListener( 'click', updateReport( cOrE ) );
+    categoryTypes.forEach( function( categoryKey, categoryIndex ) {
+        goButton = document.getElementById( 'createReport-'+categoryKey );
+        goButton.addEventListener( 'click', updateReport( categoryKey, categoryIndex ) );
     } );
 
 //    outputArea.addEventListener("focus", selectAllText);
