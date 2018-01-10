@@ -78,10 +78,10 @@
             <textarea class="reportOutput" id="reportOutput-prag" rows=20 cols=70></textarea>
         </div>
 
-        <div class="inputAreaLeft" id="inputArea-play"></div>
+        <div class="inputAreaLeft" id="inputArea-in_at"></div>
         <div class="container">
-            <button class="createReportButton" id="createReport-play">Create PLAY report from current selection</button><br>
-            <textarea class="reportOutput" id="reportOutput-play" rows=20 cols=70></textarea>
+            <button class="createReportButton" id="createReport-in_at">Create INTERACTION-ATTACHMENT report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-in_at" rows=20 cols=70></textarea>
         </div>
 
         <div class="inputAreaLeft" id="inputArea-comp"></div>
@@ -92,10 +92,10 @@
     </div>
 
     <div id="rightColumn">
-        <div class="inputAreaRight" id="inputArea-in_at"></div>
+        <div class="inputAreaRight" id="inputArea-play"></div>
         <div class="container">
-            <button class="createReportButton" id="createReport-in_at">Create INTERACTION-ATTACHMENT report from current selection</button><br>
-            <textarea class="reportOutput" id="reportOutput-in_at" rows=20 cols=70></textarea>
+            <button class="createReportButton" id="createReport-play">Create PLAY report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-play" rows=20 cols=70></textarea>
         </div>
 
         <div class="inputAreaRight" id="inputArea-gest"></div>
@@ -329,10 +329,97 @@
             { group: 0, can: "laughs at amusing activities", cannot: "laugh at amusing activities" },
             { group: 0, can: "shows interest in people, not objects", cannot: "show interest in people, not objects" },
             { group: 0, can: "cries to get attention", cannot: "cry to get attention" },
+
+            { group: 1, can: "produces different cries for different reasons", cannot: "produce different cries for different reasons" },
+            { group: 1, can: "maintains eye contact", cannot: "maintain eye contact" },
+            { group: 1, can: "vocalizes in response to vocalization", cannot: "vocalize in response to vocalization" },
+            { group: 1, can: "imitates facial expressions", cannot: "imitate facial expressions" },
+
+            { group: 2, can: "exchanges gestures with an adult", cannot: "exchange gestures with an adult" },
+            { group: 2, can: "uses gestures and vocalization to protest", cannot: "use gestures and vocalization to protest" },
+            { group: 2, can: "shouts or vocalizes to gain attention", cannot: "shout or vocalize to gain attention" },
+
+            { group: 3, can: "vocalizes to call others", cannot: "vocalize to call others" },
+            { group: 3, can: "indicates a desire for a change in activities", cannot: "indicate a desire for a change in activities" },
+            { group: 3, can: "vocalizes when another person calls", cannot: "vocalize when another person calls" },
+
+            { group: 4, can: "imitates other children", cannot: "imitate other children" },
+            { group: 4, can: "responds to other children's vocalizations", cannot: "respond to other children's vocalizations" },
+            { group: 4, can: "initiates turn-taking routines", cannot: "initiate turn-taking routines" },
+            { group: 4, can: "uses vocalizations more frequently during interactions", cannot: "use vocalizations more frequently during interactions" },
+            { group: 4, can: "uses more words during turn taking", cannot: "use more words during turn taking" },
+
+            { group: 5, can: "points to, shows, or gives objects", cannot: "point to, show, or give objects" },
+            { group: 5, can: "controls the behavior of self or others", cannot: "control the behavior of self or others" },
+            { group: 5, can: "uses words to protest", cannot: "use words to protest" },
+
+            { group: 6, can: "engages in adult-like dialogue", cannot: "engage in adult-like dialogue" },
+            { group: 6, can: "uses vocalizations and words during pretend play", cannot: "use vocalizations and words during pretend play" },
+            { group: 6, can: "uses words to interact with others", cannot: "use words to interact with others" },
+            { group: 6, can: "takes turns talking during conversation", cannot: "take turns talking during conversation" },
+
+            // no items afterwards
         ],
 
         play: [
+            { group: 0, can: "plays with rattle", cannot: "play with rattle" },
+            { group: 0, can: "momentarily looks at objects", cannot: "momentarily look at objects" },
+            { group: 0, can: "attempts to imitate facial expressions", cannot: "attempt to imitate facial expressions" },
 
+            { group: 1, can: "enjoys frolic play", cannot: "enjoy frolic play" },
+            { group: 1, can: "smiles at self in a mirror", cannot: "smile at self in a mirror" },
+            { group: 1, can: "reaches for objects", cannot: "reach for objects" },
+            { group: 1, can: "bangs objects in play", cannot: "bang objects in play" },
+
+            { group: 2, can: "smiles and laughs during games", cannot: "smile and laugh during games" },
+            { group: 2, can: "participates in games with adults", cannot: "participate in games with adults" },
+            { group: 2, can: "demonstrates anticipation of play activities", cannot: "demonstrate anticipation of play activities" },
+            { group: 2, can: "searches for hidden objects", cannot: "search for hidden objects" },
+            { group: 2, can: "reaches for self in a mirror", cannot: "reach for self in a mirror" },
+            { group: 2, can: "interacts with objects without mouthing or banging", cannot: "interact with objects without mouthing or banging" },
+
+            { group: 3, can: "participates in speech-routine games", cannot: "participate in speech-routine games" },
+            { group: 3, can: "covers face with towel during \"Peek-a-boo\"", cannot: "cover face with towel during \"Peek-a-boo\"" },
+            { group: 3, can: "resists removal of toy", cannot: "resist removal of toy" },
+            { group: 3, can: "tries to secure an object out of reach", cannot: "try to secure an object out of reach" },
+            { group: 3, can: "imitates stirring with a spoon", cannot: "imitate stirring with a spoon" },
+            { group: 3, can: "pushes a toy car", cannot: "push a toy car" },
+
+            { group: 4, can: "plays fetching games with caregiver", cannot: "play fetching games with caregiver" },
+            { group: 4, can: "imitates patting a doll", cannot: "imitate patting a doll" },
+            { group: 4, can: "shows shoes or clothing during play", cannot: "show shoes or clothing during play" },
+            { group: 4, can: "demonstrates functional use of objects", cannot: "demonstrate functional use of objects" },
+            { group: 4, can: "shows symbolic use of objects", cannot: "show symbolic use of objects" },
+            { group: 4, can: "explores toys", cannot: "explore toys" },
+
+            { group: 5, can: "plays with a toy in different ways", cannot: "play with a toy in different ways" },
+            { group: 5, can: "plays ball with adults", cannot: "play ball with adults" },
+            { group: 5, can: "places one object inside another", cannot: "place one object inside another" },
+            { group: 5, can: "hands a toy to an adult for assistance", cannot: "hand a toy to an adult for assistance" },
+
+            { group: 6, can: "imitates housework activities", cannot: "imitate housework activities" },
+            { group: 6, can: "groups objects in play", cannot: "group objects in play" },
+            { group: 6, can: "uses two toys together in pretend play", cannot: "use two toys together in pretend play" },
+
+            { group: 7, can: "puts away toys on request", cannot: "put away toys on request" },
+            { group: 7, can: "attempts to repair broken toys", cannot: "attempt to repair broken toys" },
+            { group: 7, can: "stacks and assembles toys and objects", cannot: "stack and assemble toys and objects" },
+
+            { group: 8, can: "performs many related activities during play", cannot: "perform many related activities during play" },
+            { group: 8, can: "chooses toys selectively", cannot: "choose toys selectively" },
+            { group: 8, can: "uses most toys appropriately", cannot: "use most toys appropriately" },
+
+            { group: 9, can: "demonstrates parallel play with other children", cannot: "demonstrate parallel play with other children" },
+            { group: 9, can: "talks and verbalizes more in play around other children", cannot: "talk and verbalize more in play around other children" },
+            { group: 9, can: "shares toys with other children", cannot: "share toys with other children" },
+
+            { group: 10, can: "performs longer sequences of play activities", cannot: "perform longer sequences of play activities" },
+            { group: 10, can: "acts out familiar routines", cannot: "act out familiar routines" },
+            { group: 10, can: "pretends to perform the caregiver’s routines", cannot: "pretend to perform the caregiver’s routines" },
+
+            { group: 11, can: "acts out a new ending to a familiar routine", cannot: "act out a new ending to a familiar routine" },
+            { group: 11, can: "uses a doll as a playmate", cannot: "use a doll as a playmate" },
+            { group: 11, can: "uses one object to represent many objects", cannot: "use one object to represent many objects" },
         ],
 
         in_at: [
@@ -359,6 +446,13 @@
             { group: 3, can: "allows release of contact in new situations", cannot: "allow release of contact in new situations" },
             { group: 3, can: "performs for social attention", cannot: "perform for social attention" },
 
+            // no items for 12-15 months
+
+            { group: 5, can: "plays away from familiar people", cannot: "play away from familiar people" },
+            { group: 5, can: "requests assistance from an adult", cannot: "request assistance from an adult" },
+            { group: 5, can: "retreats to caregiver when an unfamiliar adult approaches", cannot: "retreat to caregiver when an unfamiliar adult approaches" },
+
+            // no items afterwards
         ],
 
         gest: [
@@ -372,7 +466,32 @@
             { group: 3, can: "extends arm to show an object", cannot: "extend arm to show an object" },
             { group: 3, can: "points to objects to indicate awareness", cannot: "point to objects to indicate awareness" },
 
+            { group: 4, can: "feeds others", cannot: "feed others" },
+            { group: 4, can: "combs or brushes hair", cannot: "comb or brush hair" },
+            { group: 4, can: "brushes teeth", cannot: "brush teeth" },
+            { group: 4, can: "hugs dolls, animals, or people ", cannot: "hug dolls, animals, or people " },
+            { group: 4, can: "shakes head \"no\"", cannot: "shake head \"no\"" },
 
+            // no items for 15-18 months
+
+            { group: 6, can: "leads caregiver to a desired object", cannot: "lead caregiver to a desired object" },
+            { group: 6, can: "indicates that pants are wet", cannot: "indicate that pants are wet" },
+            { group: 6, can: "pretends to play a musical instrument", cannot: "pretend to play a musical instrument" },
+            { group: 6, can: "puts on or takes off clothing", cannot: "put on or take off clothing" },
+            { group: 6, can: "pretends to dance to music", cannot: "pretend to dance to music" },
+
+            { group: 7, can: "gestures to request action", cannot: "gesture to request action" },
+            { group: 7, can: "gestures to indicate toileting needs", cannot: "gesture to indicate toileting needs" },
+            { group: 7, can: "pretends to pour from a container", cannot: "pretend to pour from a container" },
+            { group: 7, can: "pushes a stroller or shopping cart", cannot: "push a stroller or shopping cart" },
+            { group: 7, can: "flies a toy airplane", cannot: "fly a toy airplane" },
+
+            { group: 8, can: "pretends to write or type", cannot: "pretend to write or type" },
+            { group: 8, can: "pretends to talk on the telephone", cannot: "pretend to talk on the telephone" },
+            { group: 8, can: "wipes hands and face", cannot: "wipe hands and face" },
+            { group: 8, can: "slaps a palm in response to \"give me five\"", cannot: "slap a palm in response to \"give me five\"" },
+
+            // no items afterwards
         ],
     };
 
