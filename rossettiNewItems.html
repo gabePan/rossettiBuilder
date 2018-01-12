@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Rossetti Expressive and Receptive</title>
+    <title>Rossetti Related Areas</title>
     <style>
         body {
             background-color: linen;
         }
 
-        #inputAreaLeft {
+        .inputAreaLeft {
             margin: 0 0 15px 0;
         }
 
@@ -21,12 +21,24 @@
             margin: 8px 0 0 0;
         }
 
-        .h2_comprehension {
+        .h2_comp {
             color: black;
         }
 
-        .h2_expression {
-            color: blue;
+        .h2_expr, .h2_play {
+            color: #00a;
+        }
+        
+        .h2_in_at {
+            color: #050;
+        }
+
+        .h2_gest {
+            color: #606;
+        }
+
+        .h2_prag {
+            color: #520;
         }
 
         .rb-title {
@@ -72,41 +84,66 @@
 </head>
 <body>
     <div id="leftColumn">
-        <div id="inputAreaLeft"></div>
-
+        <div class="inputAreaLeft" id="inputArea-in_at"></div>
         <div class="container">
-            <button class="createReportButton" id="createReport-left">Create language COMPREHENSION report from current selection</button><br>
-            <textarea class="reportOutput" id="reportOutput-left" rows=20 cols=70></textarea>
+            <button class="createReportButton" id="createReport-in_at">Create INTERACTION-ATTACHMENT report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-in_at" rows=20 cols=70></textarea>
         </div>
+
+        <div class="inputAreaLeft" id="inputArea-prag"></div>
+        <div class="container">
+            <button class="createReportButton" id="createReport-prag">Create PRAGMATICS report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-prag" rows=20 cols=70></textarea>
+        </div>
+
+        <!--<div class="inputAreaLeft" id="inputArea-comp"></div>
+        <div class="container">
+            <button class="createReportButton" id="createReport-comp">Create LANGUAGE COMPREHENSION report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-comp" rows=20 cols=70></textarea>
+        </div>-->
     </div>
 
     <div id="rightColumn">
-        <div id="inputAreaRight"></div>
-
+        <div class="inputAreaRight" id="inputArea-gest"></div>
         <div class="container">
-            <button class="createReportButton" id="createReport-right">Create language EXPRESSION report from current selection</button><br>
-            <textarea class="reportOutput" id="reportOutput-right" rows=20 cols=70></textarea>
+            <button class="createReportButton" id="createReport-gest">Create GESTURE report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-gest" rows=20 cols=70></textarea>
         </div>
+
+        <div class="inputAreaRight" id="inputArea-play"></div>
+        <div class="container">
+            <button class="createReportButton" id="createReport-play">Create PLAY report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-play" rows=20 cols=70></textarea>
+        </div>
+
+        <!--<div class="inputAreaRight" id="inputArea-expr"></div>
+        <div class="container">
+            <button class="createReportButton" id="createReport-expr">Create LANGUAGE EXPRESSION report from current selection</button><br>
+            <textarea class="reportOutput" id="reportOutput-expr" rows=20 cols=70></textarea>
+        </div>-->
     </div>
 
     <script>
     var ageGroupLabels = [
-        "0-3 Months",
+        "0-3 Months",   // 0
         "3-6 Months",
         "6-9 Months",
         "9-12 Months",
         "12-15 Months",
-        "15-18 Months",
+        "15-18 Months", // 5
         "18-21 Months",
         "21-24 Months",
         "24-27 Months",
         "27-30 Months",
-        "30-33 Months",
+        "30-33 Months", // 10
         "33-36 Months"
     ];
 
+    var categoryTypes = [ 'comp', 'expr', 'prag', 'play', 'in_at', 'gest' ];
+    var categoryDisplayNames = [ 'Language comprehension', 'Language expression', 'Pragmatics', 'Play', 'Interaction-Attachment', 'Gesture' ];
+
     var textItems = {
-        comprehension: [
+        comp: [
             { group: 0, can: "quiets to a familiar voice", cannot: "quiet to a familiar voice" },
             { group: 0, can: "moves in response to a voice", cannot: "move in response to a voice" },
             { group: 0, can: "shows awareness of a speaker", cannot: "show awareness of a speaker" },
@@ -195,7 +232,7 @@
             { group: 11, can: "follows commands with two familiar attributes", cannot: "follow commands with two familiar attributes" },
         ],
 
-        expression: [
+        expr: [
             { group: 0, can: "vocalizes to caregiver's smile and voice", cannot: "vocalize to caregiver's smile and voice" },
             { group: 0, can: "vocalizes two different sounds", cannot: "vocalize two different sounds" },
             { group: 0, can: "coos", cannot: "coo" },
@@ -296,7 +333,178 @@
             { group: 11, can: "expresses physical states", cannot: "express physical states" },
             { group: 11, can: "converses in sentences", cannot: "converse in sentences" },
             { group: 11, can: "counts to three", cannot: "count to three" },
-        ]
+        ],
+
+        prag: [
+            { group: 0, can: "responds to adult interaction", cannot: "respond to adult interaction" },
+            { group: 0, can: "seeks to make eye contact with an adult", cannot: "seek to make eye contact with an adult" },
+            { group: 0, can: "laughs at amusing activities", cannot: "laugh at amusing activities" },
+            { group: 0, can: "shows interest in people, not objects", cannot: "show interest in people, not objects" },
+            { group: 0, can: "cries to get attention", cannot: "cry to get attention" },
+
+            { group: 1, can: "produces different cries for different reasons", cannot: "produce different cries for different reasons" },
+            { group: 1, can: "maintains eye contact", cannot: "maintain eye contact" },
+            { group: 1, can: "vocalizes in response to vocalization", cannot: "vocalize in response to vocalization" },
+            { group: 1, can: "imitates facial expressions", cannot: "imitate facial expressions" },
+
+            { group: 2, can: "exchanges gestures with an adult", cannot: "exchange gestures with an adult" },
+            { group: 2, can: "uses gestures and vocalization to protest", cannot: "use gestures and vocalization to protest" },
+            { group: 2, can: "shouts or vocalizes to gain attention", cannot: "shout or vocalize to gain attention" },
+
+            { group: 3, can: "vocalizes to call others", cannot: "vocalize to call others" },
+            { group: 3, can: "indicates a desire for a change in activities", cannot: "indicate a desire for a change in activities" },
+            { group: 3, can: "vocalizes when another person calls", cannot: "vocalize when another person calls" },
+
+            { group: 4, can: "imitates other children", cannot: "imitate other children" },
+            { group: 4, can: "responds to other children's vocalizations", cannot: "respond to other children's vocalizations" },
+            { group: 4, can: "initiates turn-taking routines", cannot: "initiate turn-taking routines" },
+            { group: 4, can: "uses vocalizations more frequently during interactions", cannot: "use vocalizations more frequently during interactions" },
+            { group: 4, can: "uses more words during turn taking", cannot: "use more words during turn taking" },
+
+            { group: 5, can: "points to, shows, or gives objects", cannot: "point to, show, or give objects" },
+            { group: 5, can: "controls the behavior of self or others", cannot: "control the behavior of self or others" },
+            { group: 5, can: "uses words to protest", cannot: "use words to protest" },
+
+            { group: 6, can: "engages in adult-like dialogue", cannot: "engage in adult-like dialogue" },
+            { group: 6, can: "uses vocalizations and words during pretend play", cannot: "use vocalizations and words during pretend play" },
+            { group: 6, can: "uses words to interact with others", cannot: "use words to interact with others" },
+            { group: 6, can: "takes turns talking during conversation", cannot: "take turns talking during conversation" },
+
+            // no items afterwards
+        ],
+
+        play: [
+            { group: 0, can: "plays with rattle", cannot: "play with rattle" },
+            { group: 0, can: "momentarily looks at objects", cannot: "momentarily look at objects" },
+            { group: 0, can: "attempts to imitate facial expressions", cannot: "attempt to imitate facial expressions" },
+
+            { group: 1, can: "enjoys frolic play", cannot: "enjoy frolic play" },
+            { group: 1, can: "smiles at self in a mirror", cannot: "smile at self in a mirror" },
+            { group: 1, can: "reaches for objects", cannot: "reach for objects" },
+            { group: 1, can: "bangs objects in play", cannot: "bang objects in play" },
+
+            { group: 2, can: "smiles and laughs during games", cannot: "smile and laugh during games" },
+            { group: 2, can: "participates in games with adults", cannot: "participate in games with adults" },
+            { group: 2, can: "demonstrates anticipation of play activities", cannot: "demonstrate anticipation of play activities" },
+            { group: 2, can: "searches for hidden objects", cannot: "search for hidden objects" },
+            { group: 2, can: "reaches for self in a mirror", cannot: "reach for self in a mirror" },
+            { group: 2, can: "interacts with objects without mouthing or banging", cannot: "interact with objects without mouthing or banging" },
+
+            { group: 3, can: "participates in speech-routine games", cannot: "participate in speech-routine games" },
+            { group: 3, can: "covers face with towel during \"Peek-a-boo\"", cannot: "cover face with towel during \"Peek-a-boo\"" },
+            { group: 3, can: "resists removal of toy", cannot: "resist removal of toy" },
+            { group: 3, can: "tries to secure an object out of reach", cannot: "try to secure an object out of reach" },
+            { group: 3, can: "imitates stirring with a spoon", cannot: "imitate stirring with a spoon" },
+            { group: 3, can: "pushes a toy car", cannot: "push a toy car" },
+
+            { group: 4, can: "plays fetching games with caregiver", cannot: "play fetching games with caregiver" },
+            { group: 4, can: "imitates patting a doll", cannot: "imitate patting a doll" },
+            { group: 4, can: "shows shoes or clothing during play", cannot: "show shoes or clothing during play" },
+            { group: 4, can: "demonstrates functional use of objects", cannot: "demonstrate functional use of objects" },
+            { group: 4, can: "shows symbolic use of objects", cannot: "show symbolic use of objects" },
+            { group: 4, can: "explores toys", cannot: "explore toys" },
+
+            { group: 5, can: "plays with a toy in different ways", cannot: "play with a toy in different ways" },
+            { group: 5, can: "plays ball with adults", cannot: "play ball with adults" },
+            { group: 5, can: "places one object inside another", cannot: "place one object inside another" },
+            { group: 5, can: "hands a toy to an adult for assistance", cannot: "hand a toy to an adult for assistance" },
+
+            { group: 6, can: "imitates housework activities", cannot: "imitate housework activities" },
+            { group: 6, can: "groups objects in play", cannot: "group objects in play" },
+            { group: 6, can: "uses two toys together in pretend play", cannot: "use two toys together in pretend play" },
+
+            { group: 7, can: "puts away toys on request", cannot: "put away toys on request" },
+            { group: 7, can: "attempts to repair broken toys", cannot: "attempt to repair broken toys" },
+            { group: 7, can: "stacks and assembles toys and objects", cannot: "stack and assemble toys and objects" },
+
+            { group: 8, can: "performs many related activities during play", cannot: "perform many related activities during play" },
+            { group: 8, can: "chooses toys selectively", cannot: "choose toys selectively" },
+            { group: 8, can: "uses most toys appropriately", cannot: "use most toys appropriately" },
+
+            { group: 9, can: "demonstrates parallel play with other children", cannot: "demonstrate parallel play with other children" },
+            { group: 9, can: "talks and verbalizes more in play around other children", cannot: "talk and verbalize more in play around other children" },
+            { group: 9, can: "shares toys with other children", cannot: "share toys with other children" },
+
+            { group: 10, can: "performs longer sequences of play activities", cannot: "perform longer sequences of play activities" },
+            { group: 10, can: "acts out familiar routines", cannot: "act out familiar routines" },
+            { group: 10, can: "pretends to perform the caregiver’s routines", cannot: "pretend to perform the caregiver’s routines" },
+
+            { group: 11, can: "acts out a new ending to a familiar routine", cannot: "act out a new ending to a familiar routine" },
+            { group: 11, can: "uses a doll as a playmate", cannot: "use a doll as a playmate" },
+            { group: 11, can: "uses one object to represent many objects", cannot: "use one object to represent many objects" },
+        ],
+
+        in_at: [
+            { group: 0, can: "maintains brief eye contact during feeding", cannot: "maintain brief eye contact during feeding" },
+            { group: 0, can: "shows differing responses to caregiver's vocalization", cannot: "show differing responses to caregiver's vocalization" },
+            { group: 0, can: "crying diminishes with adult eye contact", cannot: "crying does not diminish with adult eye contact" },
+            { group: 0, can: "smiles purposefully in response to caregiver's face or voice", cannot: "smile purposefully in response to caregiver's face or voice" },
+            { group: 0, can: "caregiver appears relaxed and comfortable in handling the child", cannot: "caregiver does not appear relaxed and comfortable in handling the child" },
+            { group: 0, can: "caregiver smiles frequently while interacting with the child", cannot: "caregiver does not smile frequently while interacting with the child" },
+
+            { group: 1, can: "smiles spontaneously to human contact", cannot: "smile spontaneously to human contact" },
+            { group: 1, can: "smiles when playing alone", cannot: "smile when playing alone" },
+            { group: 1, can: "smiles at faces of several family members", cannot: "smile at faces of several family members" },
+            { group: 1, can: "stops crying when spoken to", cannot: "stop crying when spoken to" },
+            { group: 1, can: "shows different response to family members", cannot: "show different response to family members" },
+
+            { group: 2, can: "responds to a request to \"come here\"", cannot: "respond to a request to \"come here\"" },
+            { group: 2, can: "becomes livelier with familiar people", cannot: "become livelier with familiar people" },
+            { group: 2, can: "shows some initial separation fear", cannot: "show some initial separation fear" },
+            { group: 2, can: "shows a desire to be with people", cannot: "show a desire to be with people" },
+
+            { group: 3, can: "shows sensitivity to others' moods", cannot: "show sensitivity to others' moods" },
+            { group: 3, can: "displays fear of strangers", cannot: "display fear of strangers" },
+            { group: 3, can: "allows release of contact in new situations", cannot: "allow release of contact in new situations" },
+            { group: 3, can: "performs for social attention", cannot: "perform for social attention" },
+
+            // no items for 12-15 months
+
+            { group: 5, can: "plays away from familiar people", cannot: "play away from familiar people" },
+            { group: 5, can: "requests assistance from an adult", cannot: "request assistance from an adult" },
+            { group: 5, can: "retreats to caregiver when an unfamiliar adult approaches", cannot: "retreat to caregiver when an unfamiliar adult approaches" },
+
+            // no items afterwards
+        ],
+
+        gest: [
+            // no items for 0-3 months
+            // no items for 3-6 months
+            // no items for 6-9 months
+
+            { group: 3, can: "covers and uncovers face during \"Peek-a-boo\"", cannot: "cover and uncover face during \"Peek-a-boo\"" },
+            { group: 3, can: "reaches upward as a request to be picked up", cannot: "reach upward as a request to be picked up" },
+            { group: 3, can: "waves \"hi\" and \"bye\"", cannot: "wave \"hi\" and \"bye\"" },
+            { group: 3, can: "extends arm to show an object", cannot: "extend arm to show an object" },
+            { group: 3, can: "points to objects to indicate awareness", cannot: "point to objects to indicate awareness" },
+
+            { group: 4, can: "feeds others", cannot: "feed others" },
+            { group: 4, can: "combs or brushes hair", cannot: "comb or brush hair" },
+            { group: 4, can: "brushes teeth", cannot: "brush teeth" },
+            { group: 4, can: "hugs dolls, animals, or people ", cannot: "hug dolls, animals, or people " },
+            { group: 4, can: "shakes head \"no\"", cannot: "shake head \"no\"" },
+
+            // no items for 15-18 months
+
+            { group: 6, can: "leads caregiver to a desired object", cannot: "lead caregiver to a desired object" },
+            { group: 6, can: "indicates that pants are wet", cannot: "indicate that pants are wet" },
+            { group: 6, can: "pretends to play a musical instrument", cannot: "pretend to play a musical instrument" },
+            { group: 6, can: "puts on or takes off clothing", cannot: "put on or take off clothing" },
+            { group: 6, can: "pretends to dance to music", cannot: "pretend to dance to music" },
+
+            { group: 7, can: "gestures to request action", cannot: "gesture to request action" },
+            { group: 7, can: "gestures to indicate toileting needs", cannot: "gesture to indicate toileting needs" },
+            { group: 7, can: "pretends to pour from a container", cannot: "pretend to pour from a container" },
+            { group: 7, can: "pushes a stroller or shopping cart", cannot: "push a stroller or shopping cart" },
+            { group: 7, can: "flies a toy airplane", cannot: "fly a toy airplane" },
+
+            { group: 8, can: "pretends to write or type", cannot: "pretend to write or type" },
+            { group: 8, can: "pretends to talk on the telephone", cannot: "pretend to talk on the telephone" },
+            { group: 8, can: "wipes hands and face", cannot: "wipe hands and face" },
+            { group: 8, can: "slaps a palm in response to \"give me five\"", cannot: "slap a palm in response to \"give me five\"" },
+
+            // no items afterwards
+        ],
     };
 
     // generates html elements in accordance to textItems
@@ -372,59 +580,62 @@
         };
 
         // helper function to build input elements
-        var buildInputPage = function(parentDiv, compOrExp) {
+        var buildInputPage = function(parentDiv, categoryKey, categoryIndex) {
 
-            var curSubdiv;
-            var curAgeGroup = -1;
+            // check if there are any items for current category
+            if ( textItems[ categoryKey ].length !== 0 ) {
+                var curSubdiv;
+                var curAgeGroup = -1;
 
-            textItems[ compOrExp ].forEach( function(rbTextItem,rbIndex) {
+                textItems[ categoryKey ].forEach( function(rbTextItem,rbIndex) {
 
-                if (rbTextItem.group !== curAgeGroup) {
-                    // new age group
+                    if (rbTextItem.group !== curAgeGroup) {
+                        // new age group
 
-                    // complete previous group unless prev group is -1
-                    if (curAgeGroup !== -1) {
-                        parentDiv.appendChild(curSubdiv);
+                        // complete previous group unless prev group is -1
+                        if (curAgeGroup !== -1) {
+                            parentDiv.appendChild(curSubdiv);
+                        }
+
+                        // start new group
+                        var h2Elem = document.createElement("h2");
+
+                        //curAgeGroup += 1;
+                        curAgeGroup = rbTextItem.group;
+                        h2Elem.setAttribute("class", "h2_"+categoryKey);
+                        h2Elem.textContent = ageGroupLabels[curAgeGroup]+": "+categoryDisplayNames[ categoryIndex ];
+
+                        // append new age group
+                        parentDiv.appendChild(h2Elem);
+
+                        // create new div for radio buttons
+                        curSubdiv = document.createElement("div");
+
+                        // add + - title to new subdiv
+                        addTitleDiv(curSubdiv);
                     }
 
-                    // start new group
-                    var h2Elem = document.createElement("h2");
+                    // add new radio item to current
+                    addRadioButton(rbTextItem, rbIndex, curSubdiv, categoryKey);
+                } );
 
-                    curAgeGroup += 1;
-                    h2Elem.setAttribute("class", "h2_"+compOrExp);
-                    h2Elem.textContent = ageGroupLabels[curAgeGroup]+": Language "+compOrExp;
-
-                    // append new age group
-                    parentDiv.appendChild(h2Elem);
-
-                    // create new div for radio buttons
-                    curSubdiv = document.createElement("div");
-
-                    // add + - title to new subdiv
-                    addTitleDiv(curSubdiv);
-                }
-
-                // add new radio item to current
-                addRadioButton(rbTextItem, rbIndex, curSubdiv, compOrExp);
-            } );
-
-            parentDiv.appendChild(curSubdiv);
+                parentDiv.appendChild(curSubdiv);
+            }
         };
 
-        var inputDivLeft = document.getElementById("inputAreaLeft");
-        var inputDivRight = document.getElementById("inputAreaRight");
-
-        buildInputPage(inputDivLeft, "comprehension");
-        //inputDiv.appendChild(document.createElement("br"));
-        //inputDiv.appendChild(document.createElement("br"));
-        buildInputPage(inputDivRight, "expression");
-        //inputDiv.appendChild(document.createElement("br"));
+        // build input radio buttons from preset keyword data
+        categoryTypes.forEach( function( categoryKey, categoryIndex ) {
+            var inputDiv = document.getElementById( 'inputArea-'+categoryKey );
+            if ( inputDiv ) {
+                buildInputPage( inputDiv, categoryKey, categoryIndex );
+            }
+        } );
     })();
 
 
     // helper function to format output text appropriately
-    var formatText = function(indexArray, type, compOrExp) {
-        var count = indexArray[ compOrExp ].length;
+    var formatText = function( indexArray, type, categoryKey, categoryIndex ) {
+        var count = indexArray.length;
 
         if (count === 0) {
             return "";
@@ -435,17 +646,17 @@
         var verbFormIndex;
 
         if (type === "cannot") {
-            sentenceSubjectText = "(unable to do in "+compOrExp+"):";
+            sentenceSubjectText = "(unable to do in "+categoryDisplayNames[ categoryIndex ]+"):";
             verbFormIndex = "cannot";
         }
         else {
-            sentenceSubjectText = "(able to do in "+compOrExp+"):";
+            sentenceSubjectText = "(able to do in "+categoryDisplayNames[ categoryIndex ]+"):";
             verbFormIndex = "can";
         }
 
         if (count === 1) {
             // only one item, no need to add "and"
-            sentenceVerbsText = " "+textItems[ compOrExp ][ indexArray[ compOrExp ][0] ][ verbFormIndex ];
+            sentenceVerbsText = " "+textItems[ categoryKey ][ indexArray[0] ][ verbFormIndex ];
         }
         else {
             for (var i=0; i<count; i++) {
@@ -454,7 +665,7 @@
                     sentenceVerbsText += " and";
                 }
 
-                sentenceVerbsText += " "+textItems[ compOrExp ][ indexArray[ compOrExp ][i] ][ verbFormIndex ];
+                sentenceVerbsText += " "+textItems[ categoryKey ][ indexArray[i] ][ verbFormIndex ];
 
                 if (i < count-2) {
                     // add comma if before second to last item in list 
@@ -471,11 +682,11 @@
     
 
     // helper function to scan radio buttons
-    var scanRadioButtons = function(compOrExp, canIndexArray, cannotIndexArray) {
+    var scanRadioButtons = function(categoryKey, canIndexArray, cannotIndexArray) {
         var rbIndex = 0;
 
         while (true) {
-            var curName = "rb_"+compOrExp+rbIndex;
+            var curName = "rb_"+categoryKey+rbIndex;
             curRadioButtonArray = document.getElementsByName(curName);
             var length = curRadioButtonArray.length;
 
@@ -490,10 +701,10 @@
             }
 
             if (curVal === "plus") {
-                canIndexArray[ compOrExp ].push(rbIndex);
+                canIndexArray.push(rbIndex);
             }
             else if (curVal === "minus") {
-                cannotIndexArray[ compOrExp ].push(rbIndex);
+                cannotIndexArray.push(rbIndex);
             }
 
             rbIndex++;
@@ -501,36 +712,48 @@
     };
 
     // update report content inside textarea
-    var updateReport = function(leftOrRight) {
+    var updateReport = function( categoryKey, categoryIndex ) {
         return function(event) {
             var text = "";
             var curRadioButton;
-            var outputArea = document.getElementById( 'reportOutput-'+leftOrRight );
+            var outputArea = document.getElementById( 'reportOutput-'+categoryKey );
 
-            var canIndexArray = { comprehension: [], expression: [] };
-            var cannotIndexArray = { comprehension: [], expression: [] };
+            //var canIndexArray = { comp: [], expr: [] };
+            //var cannotIndexArray = { comp: [], expr: [] };
+            var canIndexArray = [];
+            var cannotIndexArray = [];
 
             // loop to scan selections and store results in index arrays
-            if ( leftOrRight === 'left' ) {
-                // only process comprehension for left
-                scanRadioButtons("comprehension", canIndexArray, cannotIndexArray);
+            //if ( categoryKey === 'comp' ) {
+            //    // only process comprehension for comp
+            //    scanRadioButtons("comp", canIndexArray, cannotIndexArray);
 
-                var canTextComp = formatText(canIndexArray, "can", "comprehension");
-                var cannotTextComp = formatText(cannotIndexArray, "cannot", "comprehension");
+            //    var canTextComp = formatText(canIndexArray, "can", "comp");
+            //    var cannotTextComp = formatText(cannotIndexArray, "cannot", "comp");
 
-                text += canTextComp+"\n";
-                text += cannotTextComp+"\n";
-            }
-            else {
-                // only process expression for right
-                scanRadioButtons("expression", canIndexArray, cannotIndexArray);
+            //    text += canTextComp+"\n";
+            //    text += cannotTextComp+"\n";
+            //}
+            //else {
+            //    // only process expression for expr
+            //    scanRadioButtons("expr", canIndexArray, cannotIndexArray);
 
-                var canTextExp = formatText(canIndexArray, "can", "expression");
-                var cannotTextExp = formatText(cannotIndexArray, "cannot", "expression");
+            //    var canTextExp = formatText(canIndexArray, "can", "expr");
+            //    var cannotTextExp = formatText(cannotIndexArray, "cannot", "expr");
 
-                text += canTextExp+"\n";
-                text += cannotTextExp+"\n";
-            }
+            //    text += canTextExp+"\n";
+            //    text += cannotTextExp+"\n";
+            //}
+
+            // scan radio buttons and search for category items
+            scanRadioButtons( categoryKey, canIndexArray, cannotIndexArray );
+
+            // add can text for category
+            text += formatText( canIndexArray, 'can', categoryKey, categoryIndex );
+            text += '\n';
+            // add cannot text for category
+            text += formatText( cannotIndexArray, 'cannot', categoryKey, categoryIndex );
+            text += '\n';
 
             // set output text
             outputArea.textContent = text;
@@ -543,10 +766,11 @@
 //        setTimeout(function() { event.target.select(); }, 1); 
 //    };
 
-    var tempTypes = [ 'left', 'right' ];
-    tempTypes.forEach( function( lOrR, index ) {
-        goButton = document.getElementById( 'createReport-'+lOrR );
-        goButton.addEventListener( 'click', updateReport( lOrR ) );
+    categoryTypes.forEach( function( categoryKey, categoryIndex ) {
+        goButton = document.getElementById( 'createReport-'+categoryKey );
+        if ( goButton ) {
+            goButton.addEventListener( 'click', updateReport( categoryKey, categoryIndex ) );
+        }
     } );
 
 //    outputArea.addEventListener("focus", selectAllText);
