@@ -68,6 +68,17 @@
             float: left;
             width: 550px;
         }
+
+        .bulletPointOutput {
+            font-size: 11pt;
+            font-family: "Calibri", serif;
+            border: 5px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            margin-top: 5px;
+            background-color: #debaba;
+            width: 90%;
+        }
     </style>
 </head>
 <body>
@@ -77,6 +88,7 @@
         <div class="container">
             <button class="createReportButton" id="createReport-left">Create language COMPREHENSION report from current selection</button><br>
             <textarea class="reportOutput" id="reportOutput-left" rows=20 cols=70></textarea>
+            <div class="bulletPointOutput" id="bulletPointOutput-left"></div>
         </div>
     </div>
 
@@ -86,6 +98,7 @@
         <div class="container">
             <button class="createReportButton" id="createReport-right">Create language EXPRESSION report from current selection</button><br>
             <textarea class="reportOutput" id="reportOutput-right" rows=20 cols=70></textarea>
+            <div class="bulletPointOutput" id="bulletPointOutput-right"></div>
         </div>
     </div>
 
