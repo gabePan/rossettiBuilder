@@ -70,7 +70,7 @@
         }
 
         .bulletPointOutput {
-            font-size: 11pt;
+            font-size: 10pt;
             font-family: "Calibri", serif;
             border: 5px solid #ccc;
             border-radius: 5px;
@@ -88,7 +88,7 @@
         <div class="container">
             <button class="createReportButton" id="createReport-left">Create language COMPREHENSION report from current selection</button><br>
             <textarea class="reportOutput" id="reportOutput-left" rows=20 cols=70></textarea>
-            <div class="bulletPointOutput" id="bulletPointOutput-left"></div>
+            <div class="bulletPointOutput" id="bulletPointOutput-comprehension"></div>
         </div>
     </div>
 
@@ -98,7 +98,7 @@
         <div class="container">
             <button class="createReportButton" id="createReport-right">Create language EXPRESSION report from current selection</button><br>
             <textarea class="reportOutput" id="reportOutput-right" rows=20 cols=70></textarea>
-            <div class="bulletPointOutput" id="bulletPointOutput-right"></div>
+            <div class="bulletPointOutput" id="bulletPointOutput-expression"></div>
         </div>
     </div>
 
@@ -481,7 +481,45 @@
 
         return sentenceSubjectText + sentenceVerbsText;
     };
-    
+
+    // update function for bulletpoint divs
+    var UpdateBulletPointDivText = function(indexArrayArray, compOrExp) {
+        // grab bulletpoint div
+        var bpDiv = document.getElementById( "bulletPointOutput-"+compOrExp );
+        if( !bpDiv ) { return; }
+
+        // clear div
+        bpDiv.innerHTML = "";
+
+        const HEADER_TEXT = [
+            "(able to do in ",
+            "(unable to do in ",
+        ];
+        indexArrayArray.forEach( function( indexArray, indexArray_index ) {
+            var headerDiv = document.createElement( "div" );
+            headerDiv.classList.add( "div_bulletPointDivHeader" );
+            headerDiv.appendChild( document.createTextNode( HEADER_TEXT[ indexArray_index ]+compOrExp.toUpperCase()+"):" ) );
+            bpDiv.appendChild( headerDiv );
+
+            var count = indexArray[ compOrExp ].length;
+
+            if (count === 0) { return; }
+
+            // create list object
+            var listElem = document.createElement( "ul" );
+
+            indexArray[ compOrExp ].forEach( function( indexValue, index_index ) {
+                var listItem = document.createElement( "li" );
+                listItem.appendChild( document.createTextNode( textItems[ compOrExp ][ indexValue ].can ) );
+                listElem.appendChild( listItem );
+            } );
+
+            // list done, add to div
+            bpDiv.appendChild( listElem );
+        } );
+
+        return;
+    };
 
     // helper function to scan radio buttons
     var scanRadioButtons = function(compOrExp, canIndexArray, cannotIndexArray) {
@@ -530,6 +568,7 @@
 
                 var canTextComp = formatText(canIndexArray, "can", "comprehension");
                 var cannotTextComp = formatText(cannotIndexArray, "cannot", "comprehension");
+                UpdateBulletPointDivText( [ canIndexArray, cannotIndexArray ], "comprehension");
 
                 text += canTextComp+"\n";
                 text += cannotTextComp+"\n";
@@ -540,6 +579,7 @@
 
                 var canTextExp = formatText(canIndexArray, "can", "expression");
                 var cannotTextExp = formatText(cannotIndexArray, "cannot", "expression");
+                UpdateBulletPointDivText( [ canIndexArray, cannotIndexArray ], "expression");
 
                 text += canTextExp+"\n";
                 text += cannotTextExp+"\n";
