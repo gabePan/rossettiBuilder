@@ -87,7 +87,7 @@
 
         <div class="container">
             <button class="createReportButton" id="createReport-left">Create language RECEPTIVE report from current selection</button><br>
-            <textarea class="reportOutput" id="reportOutput-left" rows=20 cols=70></textarea>
+            <textarea class="reportOutput" id="reportOutput-left" rows=20 cols=60></textarea>
             <div class="bulletPointOutput" id="bulletPointOutput-receptive"></div>
         </div>
     </div>
@@ -97,7 +97,7 @@
 
         <div class="container">
             <button class="createReportButton" id="createReport-right">Create language EXPRESSIVE report from current selection</button><br>
-            <textarea class="reportOutput" id="reportOutput-right" rows=20 cols=70></textarea>
+            <textarea class="reportOutput" id="reportOutput-right" rows=20 cols=60></textarea>
             <div class="bulletPointOutput" id="bulletPointOutput-expressive"></div>
         </div>
     </div>
@@ -169,7 +169,7 @@
         };
 
         // helper function to add radio button to div
-        var addRadioButton = function(rbTextItem, rbIndex, parentDiv, compOrExp) {
+        var addRadioButton = function(rbTextItem, rbIndex, parentDiv, typeValue) {
 
             var curName;
             var newDiv;
@@ -182,7 +182,7 @@
             rbU = document.createElement("input");
             spanElem = document.createElement("span");
 
-            curName = "rb_"+compOrExp+rbIndex;
+            curName = "rb_"+typeValue+rbIndex;
 
             rbP.setAttribute("type", "radio");
             rbP.setAttribute("name", curName);
@@ -198,7 +198,7 @@
             rbU.setAttribute("checked", "checked");
 
             spanElem.setAttribute("class", "rb-label");
-            spanElem.textContent = textItems[ compOrExp ][ rbIndex ].can;
+            spanElem.textContent = textItems[ typeValue ][ rbIndex ].index + ". " + textItems[ typeValue ][ rbIndex ].can;
 
             // add created elements to document
             newDiv.appendChild(rbP);
@@ -210,12 +210,12 @@
         };
 
         // helper function to build input elements
-        var buildInputPage = function(parentDiv, compOrExp) {
+        var buildInputPage = function(parentDiv, typeValue) {
 
             var curSubdiv;
             var curAgeGroup = -1;
 
-            textItems[ compOrExp ].forEach( function(rbTextItem,rbIndex) {
+            textItems[ typeValue ].forEach( function(rbTextItem,rbIndex) {
 
                 if (rbTextItem.group !== curAgeGroup) {
                     // new age group
@@ -229,8 +229,8 @@
                     var h2Elem = document.createElement("h2");
 
                     curAgeGroup += 1;
-                    h2Elem.setAttribute("class", "h2_"+compOrExp);
-                    h2Elem.textContent = ageGroupLabels[curAgeGroup]+": Language "+compOrExp;
+                    h2Elem.setAttribute("class", "h2_"+typeValue);
+                    h2Elem.textContent = ageGroupLabels[curAgeGroup]+": Language "+typeValue;
 
                     // append new age group
                     parentDiv.appendChild(h2Elem);
@@ -243,7 +243,7 @@
                 }
 
                 // add new radio item to current
-                addRadioButton(rbTextItem, rbIndex, curSubdiv, compOrExp);
+                addRadioButton(rbTextItem, rbIndex, curSubdiv, typeValue);
             } );
 
             parentDiv.appendChild(curSubdiv);
@@ -258,8 +258,8 @@
 
 
     // helper function to format output text appropriately
-    var formatText = function(indexArray, type, compOrExp) {
-        var count = indexArray[ compOrExp ].length;
+    var formatText = function(indexArray, type, typeValue) {
+        var count = indexArray[ typeValue ].length;
 
         if (count === 0) {
             return "";
@@ -270,17 +270,17 @@
         var verbFormIndex;
 
         if (type === "cannot") {
-            sentenceSubjectText = "(unable to do in "+compOrExp+"):";
+            sentenceSubjectText = "(unable to do in "+typeValue+"):";
             verbFormIndex = "cannot";
         }
         else {
-            sentenceSubjectText = "(able to do in "+compOrExp+"):";
+            sentenceSubjectText = "(able to do in "+typeValue+"):";
             verbFormIndex = "can";
         }
 
         if (count === 1) {
             // only one item, no need to add "and"
-            sentenceVerbsText = " "+textItems[ compOrExp ][ indexArray[ compOrExp ][0] ][ verbFormIndex ];
+            sentenceVerbsText = " "+textItems[ typeValue ][ indexArray[ typeValue ][0] ][ verbFormIndex ];
         }
         else {
             for (var i=0; i<count; i++) {
@@ -289,7 +289,7 @@
                     sentenceVerbsText += " and";
                 }
 
-                sentenceVerbsText += " "+textItems[ compOrExp ][ indexArray[ compOrExp ][i] ][ verbFormIndex ];
+                sentenceVerbsText += " "+textItems[ typeValue ][ indexArray[ typeValue ][i] ][ verbFormIndex ];
 
                 if (i < count-2) {
                     // add comma if before second to last item in list 
@@ -305,9 +305,9 @@
     };
 
     // update function for bulletpoint divs
-    var UpdateBulletPointDivText = function(indexArrayArray, compOrExp) {
+    var UpdateBulletPointDivText = function(indexArrayArray, typeValue) {
         // grab bulletpoint div
-        var bpDiv = document.getElementById( "bulletPointOutput-"+compOrExp );
+        var bpDiv = document.getElementById( "bulletPointOutput-"+typeValue );
         if( !bpDiv ) { return; }
 
         // clear div
@@ -320,19 +320,19 @@
         indexArrayArray.forEach( function( indexArray, indexArray_index ) {
             var headerDiv = document.createElement( "div" );
             headerDiv.classList.add( "div_bulletPointDivHeader" );
-            headerDiv.appendChild( document.createTextNode( HEADER_TEXT[ indexArray_index ]+compOrExp.toUpperCase()+"):" ) );
+            headerDiv.appendChild( document.createTextNode( HEADER_TEXT[ indexArray_index ]+typeValue.toUpperCase()+"):" ) );
             bpDiv.appendChild( headerDiv );
 
-            var count = indexArray[ compOrExp ].length;
+            var count = indexArray[ typeValue ].length;
 
             if (count === 0) { return; }
 
             // create list object
             var listElem = document.createElement( "ul" );
 
-            indexArray[ compOrExp ].forEach( function( indexValue, index_index ) {
+            indexArray[ typeValue ].forEach( function( indexValue, index_index ) {
                 var listItem = document.createElement( "li" );
-                listItem.appendChild( document.createTextNode( textItems[ compOrExp ][ indexValue ].can ) );
+                listItem.appendChild( document.createTextNode( textItems[ typeValue ][ indexValue ].can ) );
                 listElem.appendChild( listItem );
             } );
 
@@ -344,11 +344,11 @@
     };
 
     // helper function to scan radio buttons
-    var scanRadioButtons = function(compOrExp, canIndexArray, cannotIndexArray) {
+    var scanRadioButtons = function(typeValue, canIndexArray, cannotIndexArray) {
         var rbIndex = 0;
 
         while (true) {
-            var curName = "rb_"+compOrExp+rbIndex;
+            var curName = "rb_"+typeValue+rbIndex;
             curRadioButtonArray = document.getElementsByName(curName);
             var length = curRadioButtonArray.length;
 
@@ -363,10 +363,10 @@
             }
 
             if (curVal === "plus") {
-                canIndexArray[ compOrExp ].push(rbIndex);
+                canIndexArray[ typeValue ].push(rbIndex);
             }
             else if (curVal === "minus") {
-                cannotIndexArray[ compOrExp ].push(rbIndex);
+                cannotIndexArray[ typeValue ].push(rbIndex);
             }
 
             rbIndex++;
