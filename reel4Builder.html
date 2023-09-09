@@ -50,15 +50,6 @@
             outline: none;
         }
 
-        .reportOutput {
-            font-size: 11pt;
-            font-family: "Calibri", serif;
-            border: 5px solid #ccc;
-            border-radius: 5px;
-            outline: none;
-            margin-top: 5px;
-        }
-
         #leftColumn {
             float: left;
             width: 550px;
@@ -86,8 +77,7 @@
         <div id="inputAreaLeft"></div>
 
         <div class="container">
-            <button class="createReportButton" id="createReport-left">Create language RECEPTIVE report from current selection</button><br>
-            <textarea class="reportOutput" id="reportOutput-left" rows=20 cols=60></textarea>
+            <button class="createReportButton" id="createReport-left">Create language RECEPTIVE bullet points from current selection</button><br>
             <div class="bulletPointOutput" id="bulletPointOutput-receptive"></div>
         </div>
     </div>
@@ -96,8 +86,7 @@
         <div id="inputAreaRight"></div>
 
         <div class="container">
-            <button class="createReportButton" id="createReport-right">Create language EXPRESSIVE report from current selection</button><br>
-            <textarea class="reportOutput" id="reportOutput-right" rows=20 cols=60></textarea>
+            <button class="createReportButton" id="createReport-right">Create language EXPRESSIVE bullet points from current selection</button><br>
             <div class="bulletPointOutput" id="bulletPointOutput-expressive"></div>
         </div>
     </div>
@@ -113,27 +102,27 @@
 
     var textItems = {
         receptive: [
-            { group: 0, index: 1, can: "briefly responds to a loud noise by blinking eyes or jerking whole body, and returns to normal appearance", cannot: "briefly respond to a loud noise by blinking eyes or jerking whole body, and return to normal appearance" },
+            { group: 0, index: 1, itemText: "Briefly responds to a loud noise by blinking eyes or jerking whole body, and returns to normal appearance" },
 
-            { group: 1, index: 15, can: "responds to own name", cannot: "respond to own name" },
+            { group: 1, index: 15, itemText: "Responds to own name" },
 
-            { group: 2, index: 29, can: "responds to commands such as \"let's go\" or \"come here\"", cannot: "respond to commands such as \"let's go\" or \"come here\"" },
+            { group: 2, index: 29, itemText: "Responds to commands such as \"let's go\" or \"come here\"" },
 
-            { group: 3, index: 38, can: "enjoys listening to nursery rhymes, finger plays, or songs", cannot: "enjoy listening to nursery rhymes, finger plays, or songs" },
+            { group: 3, index: 38, itemText: "Enjoys listening to nursery rhymes, finger plays, or songs" },
 
-            { group: 4, index: 43, can: "follows two-step commands", cannot: "follow two-step commands" },
+            { group: 4, index: 43, itemText: "Follows two-step commands" },
         ],
 
         expressive: [
-            { group: 0, index: 1, can: "makes sounds other than crying", cannot: "make sounds other than crying" },
+            { group: 0, index: 1, itemText: "Makes sounds other than crying" },
 
-            { group: 1, index: 15, can: "babbles or chatters playfully", cannot: "babble or chatter playfully" },
+            { group: 1, index: 15, itemText: "Babbles or chatters playfully" },
 
-            { group: 2, index: 29, can: "reacts to songs by trying to sing along", cannot: "react to songs by trying to sing along" },
+            { group: 2, index: 29, itemText: "Reacts to songs by trying to sing along" },
 
-            { group: 3, index: 38, can: "imitates environmental noises or animal sounds", cannot: "imitate environmental noises or animal sounds" },
+            { group: 3, index: 38, itemText: "Imitates environmental noises or animal sounds" },
 
-            { group: 4, can: "repeats some of the words from sentences", cannot: "repeat some of the words from sentences" },
+            { group: 4, index: 43, itemText: "Repeats some of the words from sentences" },
         ]
     };
 
@@ -198,7 +187,7 @@
             rbU.setAttribute("checked", "checked");
 
             spanElem.setAttribute("class", "rb-label");
-            spanElem.textContent = textItems[ typeValue ][ rbIndex ].index + ". " + textItems[ typeValue ][ rbIndex ].can;
+            spanElem.textContent = textItems[ typeValue ][ rbIndex ].index + ". " + textItems[ typeValue ][ rbIndex ].itemText;
 
             // add created elements to document
             newDiv.appendChild(rbP);
@@ -332,7 +321,7 @@
 
             indexArray[ typeValue ].forEach( function( indexValue, index_index ) {
                 var listItem = document.createElement( "li" );
-                listItem.appendChild( document.createTextNode( textItems[ typeValue ][ indexValue ].can ) );
+                listItem.appendChild( document.createTextNode( textItems[ typeValue ][ indexValue ].itemText ) );
                 listElem.appendChild( listItem );
             } );
 
@@ -378,7 +367,6 @@
         return function(event) {
             var text = "";
             var curRadioButton;
-            var outputArea = document.getElementById( 'reportOutput-'+leftOrRight );
 
             var canIndexArray = { receptive: [], expressive: [] };
             var cannotIndexArray = { receptive: [], expressive: [] };
@@ -387,28 +375,13 @@
             if ( leftOrRight === 'left' ) {
                 // only process receptive for left
                 scanRadioButtons("receptive", canIndexArray, cannotIndexArray);
-
-                var canTextComp = formatText(canIndexArray, "can", "receptive");
-                var cannotTextComp = formatText(cannotIndexArray, "cannot", "receptive");
                 UpdateBulletPointDivText( [ canIndexArray, cannotIndexArray ], "receptive");
-
-                text += canTextComp+"\n";
-                text += cannotTextComp+"\n";
             }
             else {
                 // only process expressive for right
                 scanRadioButtons("expressive", canIndexArray, cannotIndexArray);
-
-                var canTextExp = formatText(canIndexArray, "can", "expressive");
-                var cannotTextExp = formatText(cannotIndexArray, "cannot", "expressive");
                 UpdateBulletPointDivText( [ canIndexArray, cannotIndexArray ], "expressive");
-
-                text += canTextExp+"\n";
-                text += cannotTextExp+"\n";
             }
-
-            // set output text
-            outputArea.textContent = text;
         };
     };
 
