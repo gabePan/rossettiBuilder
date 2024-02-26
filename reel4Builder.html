@@ -86,7 +86,6 @@
         <div id="inputAreaLeft"></div>
 
         <div class="container">
-            <button class="createReportButton" id="createReport-left">Create language RECEPTIVE bullet points from current selection</button><br>
             <div class="bulletPointOutput" id="bulletPointOutput-receptive"></div>
         </div>
     </div>
@@ -95,7 +94,6 @@
         <div id="inputAreaRight"></div>
 
         <div class="container">
-            <button class="createReportButton" id="createReport-right">Create language EXPRESSIVE bullet points from current selection</button><br>
             <div class="bulletPointOutput" id="bulletPointOutput-expressive"></div>
         </div>
     </div>
@@ -348,19 +346,38 @@
             parentDiv.appendChild(newDiv);
         };
 
+        // helper function to add report generation button to div
+        var addReportGenerationButton = function(parentDiv, typeValue) {
+
+            var divElem;
+            var buttonElem;
+
+            divElem = document.createElement("div");
+            buttonElem = document.createElement("button");
+
+            buttonElem.setAttribute("class", "createReportButton");
+            buttonElem.setAttribute("data-type", typeValue);
+            buttonElem.textContent = "Create language " + typeValue.toUpperCase() + " bullet points from current selection";
+
+            divElem.appendChild(buttonElem);
+
+            parentDiv.appendChild(divElem);
+        };
+
         // helper function to build input elements
         var buildInputPage = function(parentDiv, typeValue) {
 
             var curSubdiv;
             var curAgeGroup = -1;
 
-            textItems[ typeValue ].forEach( function(rbTextItem,rbIndex) {
+            textItems[ typeValue ].forEach( function(rbTextItem, rbIndex) {
 
                 if (rbTextItem.group !== curAgeGroup) {
                     // new age group
 
                     // complete previous group unless prev group is -1
                     if (curAgeGroup !== -1) {
+                        addReportGenerationButton(curSubdiv, typeValue);
                         parentDiv.appendChild(curSubdiv);
                     }
 
@@ -385,6 +402,7 @@
                 addRadioButton(rbTextItem, rbIndex, curSubdiv, typeValue);
             } );
 
+            addReportGenerationButton(curSubdiv, typeValue);
             parentDiv.appendChild(curSubdiv);
         };
 
@@ -513,7 +531,7 @@
     };
 
     // update report content inside textarea
-    var updateReport = function(leftOrRight) {
+    var updateReport = function(typeValue) {
         return function(event) {
             var text = "";
             var curRadioButton;
@@ -522,16 +540,8 @@
             var cannotIndexArray = { receptive: [], expressive: [] };
 
             // loop to scan selections and store results in index arrays
-            if ( leftOrRight === 'left' ) {
-                // only process receptive for left
-                scanRadioButtons("receptive", canIndexArray, cannotIndexArray);
-                UpdateBulletPointDivText( [ canIndexArray, cannotIndexArray ], "receptive");
-            }
-            else {
-                // only process expressive for right
-                scanRadioButtons("expressive", canIndexArray, cannotIndexArray);
-                UpdateBulletPointDivText( [ canIndexArray, cannotIndexArray ], "expressive");
-            }
+            scanRadioButtons(typeValue, canIndexArray, cannotIndexArray);
+            UpdateBulletPointDivText( [ canIndexArray, cannotIndexArray ], typeValue);
         };
     };
 
@@ -541,13 +551,11 @@
 //        setTimeout(function() { event.target.select(); }, 1); 
 //    };
 
-    var tempTypes = [ 'left', 'right' ];
-    tempTypes.forEach( function( lOrR, index ) {
-        goButton = document.getElementById( 'createReport-'+lOrR );
-        goButton.addEventListener( 'click', updateReport( lOrR ) );
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach( function(currentButton) {
+        typeValue = currentButton.getAttribute("data-type");
+        currentButton.addEventListener("click", updateReport(typeValue));
     } );
-
-//    outputArea.addEventListener("focus", selectAllText);
     </script>
 </body>
 </html>
